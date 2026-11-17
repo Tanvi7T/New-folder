@@ -1,0 +1,48 @@
+def dfs(maze, start, goal):
+    rows = len(maze)
+    cols = len(maze[0])
+
+    stack = [(start, [start])]
+    visited = set()
+
+    while stack:
+        (x, y), path = stack.pop()
+
+        if (x, y) == goal:
+            return path
+
+        if (x, y) in visited:
+            continue
+
+        visited.add((x, y))
+
+        moves = [(0,1), (1,0), (0,-1), (-1,0)]
+
+        for dx, dy in moves:
+            nx, ny = x + dx, y + dy
+
+            if (0 <= nx < rows and
+                0 <= ny < cols and
+                maze[nx][ny] == 0 and
+                (nx, ny) not in visited):
+
+                stack.append(((nx, ny), path + [(nx, ny)]))
+
+    return None
+
+
+# 0 = Free path, 1 = Wall
+
+maze = [
+    [0, 1, 0, 0],
+    [0, 0, 0, 1],
+    [1, 0, 1, 0],
+    [0, 0, 0, 0]
+]
+
+start = (0, 0)
+goal = (3, 3)
+
+path = dfs(maze, start, goal)
+
+print("Path:", path)

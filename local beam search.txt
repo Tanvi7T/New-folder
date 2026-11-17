@@ -1,0 +1,33 @@
+import random
+
+def heuristic(state, goal):
+    return abs(state - goal)
+
+def local_beam_search(start, goal, k):
+    beam = [start]
+
+    while True:
+        if goal in beam:
+            return goal
+
+        successors = []
+
+        for state in beam:
+            successors.append(state + 1)
+            successors.append(state - 1)
+
+        successors = list(set(successors))
+
+        beam = sorted(successors,
+                      key=lambda x: heuristic(x, goal))[:k]
+
+        print("Beam:", beam)
+
+
+start = 0
+goal = 10
+k = 2
+
+result = local_beam_search(start, goal, k)
+
+print("Goal Found:", result)

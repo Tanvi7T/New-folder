@@ -1,0 +1,52 @@
+# Model-Based Intelligent Agent for Grid Navigation
+
+class ModelBasedAgent:
+    def __init__(self):
+        self.position = [0, 0]
+        self.model = {}
+
+    def perceive(self, grid):
+        self.model = {
+            (i, j): grid[i][j]
+            for i in range(len(grid))
+            for j in range(len(grid[0]))
+        }
+
+    def act(self, grid):
+        x, y = self.position
+
+        if grid[x][y] == 'G':
+            return "Goal Reached!"
+
+        # Possible movements: Down, Right, Up, Left
+        moves = [
+            (1, 0), (0, 1), (-1, 0), (0, -1)
+        ]
+
+        for dx, dy in moves:
+            nx, ny = x + dx, y + dy
+
+            if (nx, ny) in self.model:
+                if self.model[(nx, ny)] != '1':
+                    self.position = [nx, ny]
+                    return f"Moving to {self.position}"
+
+        return "No safe move available"
+
+
+grid = [
+    ['0', '0', '0', '0'],
+    ['1', '1', '0', '1'],
+    ['0', '0', '0', '0'],
+    ['0', '1', '1', 'G']
+]
+
+agent = ModelBasedAgent()
+
+for step in range(15):
+    agent.perceive(grid)
+    result = agent.act(grid)
+    print(result)
+
+    if result == "Goal Reached!" or result == "No safe move available":
+        break

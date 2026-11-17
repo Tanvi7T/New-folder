@@ -1,0 +1,37 @@
+# Goal Stack Planning - Blocks World
+
+initial = [["A", "B"], ["C"]]
+goal = [["B", "A"], ["C"]]
+
+def display(state):
+    for stack in state:
+        print(stack)
+
+def goal_stack_planning(initial, goal):
+    plan = []
+
+    print("Initial State:")
+    display(initial)
+
+    print("\nGoal State:")
+    display(goal)
+
+    if initial == goal:
+        print("\nGoal already achieved!")
+        return
+
+    print("\nActions:")
+
+    for i in range(len(initial)):
+        for j in range(len(initial[i])):
+            block = initial[i][j]
+
+            if block != goal[i][j] if i < len(goal) and j < len(goal[i]) else True:
+                plan.append("Move " + block)
+
+    print(plan)
+    print("\nGoal Configuration:")
+    display(goal)
+
+
+goal_stack_planning(initial, goal)

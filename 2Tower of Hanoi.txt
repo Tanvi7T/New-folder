@@ -1,0 +1,45 @@
+from collections import deque
+
+start = (0, 0, 0)
+goal = (2, 2, 2)
+
+queue = deque([start])
+visited = [start]
+parent = {start: None}
+
+while queue:
+    state = queue.popleft()
+
+    if state == goal:
+        break
+
+    pegs = [[], [], []]
+
+    for d in range(3):
+        pegs[state[d]].append(d)
+
+    for i in range(3):
+        if pegs[i]:
+            disk = pegs[i][0]
+
+            for j in range(3):
+                if i != j and (not pegs[j] or disk < pegs[j][0]):
+                    new = list(state)
+                    new[disk] = j
+                    new = tuple(new)
+
+                    if new not in visited:
+                        visited.append(new)
+                        parent[new] = state
+                        queue.append(new)
+
+path = []
+while state is not None:
+    path.append(state)
+    state = parent[state]
+
+path.reverse()
+
+print("Solution:")
+for s in path:
+    print(s)
